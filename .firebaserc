@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "kanban-fire-833cc": {
+      "hosting": {
+        "kanban-fire-ui": [
+          "kanban-fire-833cc"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "kanban-fire-833cc"
+  }
+}

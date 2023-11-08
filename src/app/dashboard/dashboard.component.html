@@ -1,0 +1,60 @@
+<mat-toolbar color="primary">
+  <mat-icon class="icon">local_fire_department</mat-icon>
+  <span class="title">Kanban Fire</span>
+</mat-toolbar>
+
+<div class="content-wrapper">
+  <button (click)="createTaskDialog()" mat-raised-button color="primary">
+    <mat-icon>add</mat-icon>
+    Add Task
+  </button>
+
+  <div class="container-wrapper">
+
+    <div class="container">
+      <h2>Backlog</h2>
+      <mat-card
+        cdkDropList
+        [id]="status.TODO"
+        #todoList="cdkDropList"
+        [cdkDropListData]="todo"
+        [cdkDropListConnectedTo]="[inProgressList, doneList]"
+        (cdkDropListDropped)="dragDrop($event)"
+        class="list">
+        <p class="empty-label" *ngIf="todo.length === 0">Empty list</p>
+        <app-task (edit)="updateTaskDialog($event)" *ngFor="let task of todo" cdkDrag [task]="task"></app-task>
+      </mat-card>
+    </div>
+
+    <div class="container">
+      <h2>In progress</h2>
+      <mat-card
+        cdkDropList
+        [id]="status.IN_PROGRESS"
+        #inProgressList="cdkDropList"
+        [cdkDropListData]="inProgress"
+        [cdkDropListConnectedTo]="[todoList, doneList]"
+        (cdkDropListDropped)="dragDrop($event)"
+        class="list">
+        <p class="empty-label" *ngIf="inProgress.length === 0">Empty list</p>
+        <app-task (edit)="updateTaskDialog($event)" *ngFor="let task of inProgress" cdkDrag [task]="task"></app-task>
+      </mat-card>
+    </div>
+
+    <div class="container">
+      <h2>Done</h2>
+      <mat-card
+        cdkDropList
+        [id]="status.DONE"
+        #doneList="cdkDropList"
+        [cdkDropListData]="done"
+        [cdkDropListConnectedTo]="[todoList, inProgressList]"
+        (cdkDropListDropped)="dragDrop($event)"
+        class="list">
+        <p class="empty-label" *ngIf="done.length === 0">Empty list</p>
+        <app-task (edit)="updateTaskDialog($event)" *ngFor="let task of done" cdkDrag [task]="task"></app-task>
+      </mat-card>
+    </div>
+
+  </div>
+</div>

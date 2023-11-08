@@ -1,0 +1,21 @@
+:host {
+  display: block;
+}
+
+.item {
+  margin: 8px;
+  cursor: pointer;
+}
+
+.item .title {
+  margin: 8px;
+}
+
+.item .description {
+  margin: 8px;
+}
+
+.item .date {
+  color: gray;
+  align-content: end;
+}

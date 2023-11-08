@@ -1,0 +1,9 @@
+<mat-card class="item" *ngIf="task" (dblclick)="edit.emit(task)">
+  <h2 class="item title">{{ task.title }}</h2>
+  <p class="item description">
+    {{ task.description }}
+  </p>
+  <p class="item date">
+    {{ task.updatedDate ? task.updatedDate.toString(): task.createdDate.toString() }}
+  </p>
+</mat-card>

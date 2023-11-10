@@ -9,8 +9,8 @@ export class TaskService {
   constructor(private readonly fireFunctionsClient: FireFunctionsClient) {
   }
 
-  public getAllTask(): Observable<Task[]> {
-    return this.fireFunctionsClient.fetch('getTasks');
+  public getTaskList(): Observable<Task[]> {
+    return this.fireFunctionsClient.fetch('getTaskList');
   }
 
   public createNewTask(task: Task): Observable<Task> {
@@ -23,5 +23,9 @@ export class TaskService {
 
   public deleteTask(task: Task): Observable<void> {
     return this.fireFunctionsClient.fetch('deleteTask', task);
+  }
+
+  public initTaskList(): Observable<Task[]> {
+    return this.fireFunctionsClient.fetch('initTaskList');
   }
 }

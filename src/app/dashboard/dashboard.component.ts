@@ -22,7 +22,7 @@ export class DashboardComponent implements OnInit {
               private readonly taskService: TaskService) {
   }
 
-  public tasks: Task[] = [];
+  public taskList: Task[] = [];
   public todo: Task[] = [];
   public inProgress: Task[] = [];
   public done: Task[] = [];
@@ -35,11 +35,11 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe((data) => {
-      this.tasks = data['tasks'];
+      this.taskList = data['tasks'];
 
-      this.todo = this.tasks.filter(task => task.status === Status.TODO);
-      this.inProgress = this.tasks.filter(task => task.status === Status.IN_PROGRESS);
-      this.done = this.tasks.filter(task => task.status === Status.DONE);
+      this.todo = this.taskList.filter(task => task.status === Status.TODO);
+      this.inProgress = this.taskList.filter(task => task.status === Status.IN_PROGRESS);
+      this.done = this.taskList.filter(task => task.status === Status.DONE);
     });
   }
 

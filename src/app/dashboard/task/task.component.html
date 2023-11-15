@@ -4,6 +4,8 @@
     {{ task.description }}
   </p>
   <p class="item date">
-    {{ task.updatedDate ? "Updated data: " + task.updatedDate.toString() : "Created date: " + task.createdDate.toString() }}
+    {{ task.updatedDate ?
+    "Updated data: " + timestampToDateString(task.updatedDate) :
+    "Created date: " + timestampToDateString(task.createdDate) }}
   </p>
 </mat-card>

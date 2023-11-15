@@ -1,0 +1,9 @@
+<div class="content-container">
+  <img [src]="img" alt="Brand image">
+  <div class="message">{{title}}</div>
+</div>
+
+<div class="actions">
+  <button mat-raised-button color="warn" (click)="cancel()">Later</button>
+  <button mat-raised-button color="primary" (click)="apply()">Allow</button>
+</div>

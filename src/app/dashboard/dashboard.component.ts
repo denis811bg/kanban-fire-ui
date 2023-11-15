@@ -6,7 +6,7 @@ import { CdkDragDrop, transferArrayItem } from "@angular/cdk/drag-drop";
 import { ActivatedRoute } from "@angular/router";
 import { Status } from "../enum/status";
 import { TaskDialogComponent, TaskDialogResult } from "./task/task-dialog/task-dialog.component";
-import { TaskService } from "./service/task.service";
+import { TaskService } from "./services/task.service";
 import { Observable } from "rxjs";
 
 @Component({

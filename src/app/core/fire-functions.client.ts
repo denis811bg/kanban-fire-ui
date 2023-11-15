@@ -1,12 +1,13 @@
 import { Injectable } from "@angular/core";
 import { AngularFireFunctions } from "@angular/fire/compat/functions";
-import { catchError, Observable, throwError } from "rxjs";
-import { ErrorInfo } from "./error-info";
+import { catchError, Observable } from "rxjs";
+import { ErrorService } from "../services/error.service";
 
 @Injectable({providedIn: 'root'})
 export class FireFunctionsClient {
 
-  constructor(private readonly angularFireFunctions: AngularFireFunctions) {
+  constructor(private readonly angularFireFunctions: AngularFireFunctions,
+              private readonly errorService: ErrorService) {
   }
 
   public fetch<R, D = void>(methodName: string, data?: D): Observable<R> {
@@ -18,14 +19,7 @@ export class FireFunctionsClient {
 
     return this.angularFireFunctions.httpsCallable<any, R>(methodName)(body)
       .pipe(
-        catchError(errorResponse => FireFunctionsClient.throwError(errorResponse))
+        catchError(errorResponse => this.errorService.throwError(errorResponse))
       );
-  }
-
-  private static throwError(errorResponse: object): Observable<never> {
-    console.log(errorResponse);
-    return throwError(() =>
-      new ErrorInfo(`${errorResponse}`.replace('Error: ', ''))
-    );
   }
 }

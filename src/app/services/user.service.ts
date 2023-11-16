@@ -13,4 +13,8 @@ export class UserService {
     return this.fireFunctionsClient.fetch('createUser', userDto);
   }
 
+  public getUser(userDto: UserDto): Observable<UserDto> {
+    return this.fireFunctionsClient.fetch('getUser', userDto);
+  }
+
 }

@@ -27,7 +27,7 @@ export class SignUpComponent {
     this.signInService.signUpWithEmailAndPassword(this.email, this.password)
       .then(async (userCredential: UserCredential) => {
         if (userCredential.user) {
-          this.userService.createUser(UserUtils.buildUserInfo(userCredential.user)).subscribe(async (userDto: UserDto) => {
+          this.userService.createUser(UserUtils.buildUserDto(userCredential.user)).subscribe(async (userDto: UserDto) => {
             LocalStorageUtils.setUser(userDto);
             this.signInService.isSignedIn.next(true);
             await this.router.navigate(['dashboard']);

@@ -5,6 +5,8 @@ import firebase from "firebase/compat";
 import { LocalStorageUtils } from "../utils/local-storage.utils";
 import { UserUtils } from "../utils/user.utils";
 import UserCredential = firebase.auth.UserCredential;
+import { UserDto } from "../dto/user.dto";
+import { UserService } from "../services/user.service";
 
 @Component({
   selector: 'app-sign-in',
@@ -17,14 +19,15 @@ export class SignInComponent {
   public password: string = '';
 
   constructor(private readonly signInService: SignInService,
-              private readonly router: Router) {
+              private readonly router: Router,
+              private readonly userService: UserService) {
   }
 
   public signIn(): void {
     this.signInService.signInWithEmailAndPassword(this.email, this.password)
       .then(async (userCredential: UserCredential) => {
         if (userCredential.user) {
-          LocalStorageUtils.setUser(UserUtils.buildUserInfo(userCredential.user));
+          LocalStorageUtils.setUser(UserUtils.buildUserDto(userCredential.user));
           this.signInService.isSignedIn.next(true);
           await this.router.navigate(['dashboard']);
         }
@@ -35,9 +38,13 @@ export class SignInComponent {
     this.signInService.signInWithGoogle()
       .then(async (userCredential: UserCredential) => {
         if (userCredential.user) {
-          LocalStorageUtils.setUser(UserUtils.buildUserInfo(userCredential.user));
-          this.signInService.isSignedIn.next(true);
-          await this.router.navigate(['dashboard']);
+          this.userService.getUser(UserUtils.buildUserDto(userCredential.user)).subscribe(async (userDto: UserDto) => {
+            if (userDto) {
+              LocalStorageUtils.setUser(userDto);
+              this.signInService.isSignedIn.next(true);
+              await this.router.navigate(['dashboard']);
+            }
+          });
         }
       });
   }

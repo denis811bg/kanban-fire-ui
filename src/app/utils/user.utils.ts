@@ -3,7 +3,7 @@ import { UserDto } from "../dto/user.dto";
 
 export class UserUtils {
 
-  public static buildUserInfo(user: firebase.User): UserDto {
+  public static buildUserDto(user: firebase.User): UserDto {
     return {
       displayName: user.displayName,
       email: user.email,

@@ -4,6 +4,7 @@ import { BehaviorSubject } from "rxjs";
 
 @Injectable({providedIn: 'root'})
 export class FirebaseMessagingService {
+
   private readonly currentMessage: BehaviorSubject<{}> = new BehaviorSubject<{}>({});
 
   constructor(private angularFireMessaging: AngularFireMessaging) {
@@ -25,4 +26,5 @@ export class FirebaseMessagingService {
   public receiveMessage(): void {
     this.angularFireMessaging.messages.subscribe(msg => this.currentMessage.next(msg));
   }
+
 }

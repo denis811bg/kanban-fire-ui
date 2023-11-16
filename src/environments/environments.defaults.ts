@@ -1,5 +1,6 @@
 export const environmentDefault = {
   production: false,
+  useEmulators: true,
   firebase: {
     apiKey: "AIzaSyC3-KmYMsonAbL9vwWlTo-atg6IwHTsK8o",
     authDomain: "kanban-fire-833cc.firebaseapp.com",

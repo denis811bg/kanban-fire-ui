@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from "@angular/material/dialog";
 import { FireFunctionsClient } from "../core/fire-functions.client";
-import { Task } from "../dto/task";
+import { TaskDto } from "../dto/task.dto";
 import { CdkDragDrop, transferArrayItem } from "@angular/cdk/drag-drop";
 import { ActivatedRoute } from "@angular/router";
 import { Status } from "../enum/status";
@@ -22,10 +22,10 @@ export class DashboardComponent implements OnInit {
               private readonly taskService: TaskService) {
   }
 
-  public taskList: Task[] = [];
-  public todo: Task[] = [];
-  public inProgress: Task[] = [];
-  public done: Task[] = [];
+  public taskList: TaskDto[] = [];
+  public todo: TaskDto[] = [];
+  public inProgress: TaskDto[] = [];
+  public done: TaskDto[] = [];
 
   public get status(): typeof Status {
     return Status;
@@ -43,7 +43,7 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  public openTaskDialog(task: Task | {}, enableDelete: boolean): Observable<TaskDialogResult> {
+  public openTaskDialog(task: TaskDto | {}, enableDelete: boolean): Observable<TaskDialogResult> {
     const dialogRef = this.dialog.open(TaskDialogComponent, {
       width: DashboardComponent.TASK_DIALOG_WIDTH,
       data: {
@@ -61,13 +61,13 @@ export class DashboardComponent implements OnInit {
         return;
       }
 
-      this.taskService.createNewTask(taskDialogResult.task).subscribe((createdTask: Task) => {
+      this.taskService.createNewTask(taskDialogResult.task).subscribe((createdTask: TaskDto) => {
         this.todo.push(createdTask);
       });
     });
   }
 
-  public updateTaskDialog(task: Task): void {
+  public updateTaskDialog(task: TaskDto): void {
     this.openTaskDialog(task, true).subscribe((taskDialogResult: TaskDialogResult | undefined) => {
       if (!taskDialogResult) {
         return;
@@ -81,7 +81,7 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  public dragDrop(event: CdkDragDrop<Task[]>): void {
+  public dragDrop(event: CdkDragDrop<TaskDto[]>): void {
     if (event.previousContainer === event.container) {
       return;
     }
@@ -99,24 +99,24 @@ export class DashboardComponent implements OnInit {
 
     const task = event.container.data[0];
     task.status = event.container.id as Status;
-    this.taskService.updateTask(task as Task).subscribe(() => {
+    this.taskService.updateTask(task as TaskDto).subscribe(() => {
     });
   }
 
-  private deleteTask(task: Task): void {
+  private deleteTask(task: TaskDto): void {
     this.taskService.deleteTask(task).subscribe(() => {
       this.updateTaskList(task, true);
     });
   }
 
-  private updateTask(task: Task): void {
-    this.taskService.updateTask(task).subscribe((updatedTask: Task) => {
+  private updateTask(task: TaskDto): void {
+    this.taskService.updateTask(task).subscribe((updatedTask: TaskDto) => {
       this.updateTaskList(task, false, updatedTask);
     });
   }
 
-  private updateTaskList(task: Task, isDelete: boolean, updatedTask?: Task): void {
-    let targetArray: Task[] | undefined = this.getTaskListForStatus(task.status);
+  private updateTaskList(task: TaskDto, isDelete: boolean, updatedTask?: TaskDto): void {
+    let targetArray: TaskDto[] | undefined = this.getTaskListForStatus(task.status);
 
     if (targetArray) {
       const index = targetArray.indexOf(task);
@@ -130,7 +130,7 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  private getTaskListForStatus(status: string): Task[] | undefined {
+  private getTaskListForStatus(status: string): TaskDto[] | undefined {
     switch (status) {
       case Status.TODO:
         return this.todo;
@@ -142,4 +142,5 @@ export class DashboardComponent implements OnInit {
         return undefined;
     }
   }
+
 }

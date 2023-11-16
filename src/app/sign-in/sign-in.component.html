@@ -1,0 +1,26 @@
+<form class="sign-in-form">
+  <mat-card class="sign-in-card">
+    <mat-card-header>
+      <mat-card-title>Sign In</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <mat-form-field class="full-width">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" [(ngModel)]="email" name="email" required>
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" [(ngModel)]="password" name="password" required>
+      </mat-form-field>
+    </mat-card-content>
+
+    <mat-card-actions class="actions-container">
+      <button mat-raised-button color="primary" class="full-width" (click)="signIn()">Sign In</button>
+      <button mat-raised-button class="full-width" (click)="signInWithGoogle()">Google Sign In</button>
+      <div class="full-width"><p>Don`t have an account ? <a routerLink="/sign-up">Sign Up</a> hera.</p>
+      </div>
+    </mat-card-actions>
+  </mat-card>
+</form>

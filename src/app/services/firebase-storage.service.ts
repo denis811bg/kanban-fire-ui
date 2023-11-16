@@ -11,4 +11,5 @@ export class FirebaseStorageService {
   public getDownloadUrl(path: string): Observable<any> {
     return this.angularFireStorage.ref(path).getDownloadURL();
   }
+
 }

@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import { Task } from "../../../dto/task";
+import { TaskDto } from "../../../dto/task.dto";
 
 @Component({
   selector: 'app-task-dialog',
@@ -19,17 +19,17 @@ export class TaskDialogComponent {
     this.dialogRef.close();
   }
 
-  public delete(task: Task): void {
+  public delete(task: TaskDto): void {
     this.dialogRef.close(task);
   }
 }
 
 export interface TaskDialogData {
-  task: Task,
+  task: TaskDto,
   enableDelete: boolean
 }
 
 export interface TaskDialogResult {
-  task: Task,
+  task: TaskDto,
   isDelete?: boolean
 }

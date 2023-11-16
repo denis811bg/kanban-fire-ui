@@ -13,10 +13,12 @@ export class ErrorService {
       new ErrorInfo(`${errorResponse}`.replace('Error: ', ''))
     );
   }
+
 }
 
 export class ErrorInfo {
 
   constructor(public message: string) {
   }
+
 }

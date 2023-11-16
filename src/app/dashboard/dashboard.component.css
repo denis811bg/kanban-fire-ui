@@ -9,7 +9,7 @@ mat-toolbar > span {
 .content-wrapper {
   max-width: 1400px;
   margin: auto;
-  padding-top: 24px;
+  padding: 24px;
 }
 
 .container-wrapper {

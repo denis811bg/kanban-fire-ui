@@ -2,5 +2,6 @@ import { environmentDefault } from "./environments.defaults";
 
 export const environment = {
   ...environmentDefault,
-  production: true
+  production: true,
+  useEmulators: false
 }

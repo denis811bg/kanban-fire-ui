@@ -1,0 +1,21 @@
+.sign-in-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+}
+
+.sign-in-card {
+  width: 300px;
+  align-items: center;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.actions-container {
+  display: flex;
+  flex-direction: column
+}

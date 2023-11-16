@@ -1,0 +1,14 @@
+.toolbar-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.logo-container {
+  display: block;
+  align-items: center;
+}
+
+.actions-container {
+  display: block;
+  align-items: center;
+}

@@ -11,6 +11,7 @@ import { FormsModule } from "@angular/forms";
 import { DashboardComponent } from './dashboard.component';
 import { CommonModule } from "@angular/common";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { RouterLink } from "@angular/router";
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
     MatButtonModule,
     MatDialogModule,
     MatInputModule,
+    RouterLink
   ],
   providers: [],
   bootstrap: [DashboardComponent]

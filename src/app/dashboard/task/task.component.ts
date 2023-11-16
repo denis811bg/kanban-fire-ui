@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Task } from "../../dto/task";
+import { TaskDto } from "../../dto/task.dto";
 import { DateUtils } from "../../utils/date.utils";
 import firebase from "firebase/compat";
 import Timestamp = firebase.firestore.Timestamp;
@@ -10,8 +10,8 @@ import Timestamp = firebase.firestore.Timestamp;
   styleUrls: ['./task.component.css']
 })
 export class TaskComponent {
-  @Input() task: Task | undefined = undefined;
-  @Output() edit = new EventEmitter<Task>();
+  @Input() task: TaskDto | undefined = undefined;
+  @Output() edit = new EventEmitter<TaskDto>();
 
   public timestampToDateString(timestamp: Timestamp): string {
     return DateUtils.timestampToDate(timestamp).toDateString();

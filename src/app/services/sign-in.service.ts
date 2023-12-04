@@ -4,13 +4,17 @@ import firebase from "firebase/compat";
 import { GoogleAuthProvider } from 'firebase/auth';
 import { BehaviorSubject } from "rxjs";
 import UserCredential = firebase.auth.UserCredential;
+import { LocalStorageUtils } from "../utils/local-storage.utils";
+import { UserUtils } from "../utils/user.utils";
+import { Router } from "@angular/router";
 
 @Injectable({providedIn: 'root'})
 export class SignInService {
 
   private _isSignedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-  constructor(private readonly angularFireAuth: AngularFireAuth) {
+  constructor(private readonly angularFireAuth: AngularFireAuth,
+              private readonly router: Router) {
   }
 
   public signInWithEmailAndPassword(email: string, password: string): Promise<UserCredential> {
@@ -35,6 +39,12 @@ export class SignInService {
 
   set isSignedIn(value: BehaviorSubject<boolean>) {
     this._isSignedIn = value;
+  }
+
+  public async handleSignInSuccess(user: firebase.User): Promise<void> {
+    LocalStorageUtils.setUser(UserUtils.buildUserDto(user));
+    this.isSignedIn.next(true);
+    await this.router.navigate(['dashboard']);
   }
 
 }

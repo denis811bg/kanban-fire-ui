@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
 import { SignInService } from "../services/sign-in.service";
-import { Router } from "@angular/router";
 import firebase from "firebase/compat";
-import { LocalStorageUtils } from "../utils/local-storage.utils";
+import { NotificationService } from "../services/notification.service";
+import { UserService } from "../services/user.service";
+import { UserDto } from "../dto/user.dto";
 import { UserUtils } from "../utils/user.utils";
 import UserCredential = firebase.auth.UserCredential;
-import { UserDto } from "../dto/user.dto";
-import { UserService } from "../services/user.service";
 
 @Component({
   selector: 'app-sign-in',
@@ -19,7 +18,7 @@ export class SignInComponent {
   public password: string = '';
 
   constructor(private readonly signInService: SignInService,
-              private readonly router: Router,
+              private readonly notificationService: NotificationService,
               private readonly userService: UserService) {
   }
 
@@ -27,10 +26,11 @@ export class SignInComponent {
     this.signInService.signInWithEmailAndPassword(this.email, this.password)
       .then(async (userCredential: UserCredential) => {
         if (userCredential.user) {
-          LocalStorageUtils.setUser(UserUtils.buildUserDto(userCredential.user));
-          this.signInService.isSignedIn.next(true);
-          await this.router.navigate(['dashboard']);
+          await this.signInService.handleSignInSuccess(userCredential.user);
         }
+      })
+      .catch((error: any) => {
+        this.notificationService.error('SignIn error:', error.message);
       });
   }
 
@@ -38,14 +38,19 @@ export class SignInComponent {
     this.signInService.signInWithGoogle()
       .then(async (userCredential: UserCredential) => {
         if (userCredential.user) {
-          this.userService.getUser(UserUtils.buildUserDto(userCredential.user)).subscribe(async (userDto: UserDto) => {
-            if (userDto) {
-              LocalStorageUtils.setUser(userDto);
-              this.signInService.isSignedIn.next(true);
-              await this.router.navigate(['dashboard']);
+          this.userService.getUser(userCredential.user.uid).subscribe(async (userDto: UserDto) => {
+            if (UserUtils.isEmptyUser(userDto) && userCredential.user) {
+              this.userService.createUser(UserUtils.buildUserDto(userCredential.user)).subscribe(async (userDto: UserDto) => {
+                if (userDto && userCredential.user) {
+                  await this.signInService.handleSignInSuccess(userCredential.user);
+                }
+              });
             }
           });
         }
+      })
+      .catch((error: any) => {
+        this.notificationService.error('SignIn error:', error.message);
       });
   }
 

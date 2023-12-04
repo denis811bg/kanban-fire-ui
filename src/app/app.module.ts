@@ -12,12 +12,17 @@ import { initializeApp } from "firebase/app";
 import { PermissionDialogComponent } from './components/permission-dialog/permission-dialog.component';
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatIconModule } from "@angular/material/icon";
-import { DashboardModule } from "./dashboard/dashboard.module";
 import { AngularFireStorageModule } from "@angular/fire/compat/storage";
 import { MatButtonModule } from "@angular/material/button";
-import { SignInModule } from "./sign-in/sign-in.module";
 import { MatDialogModule } from "@angular/material/dialog";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { MatSelectModule } from "@angular/material/select";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatNativeDateModule } from "@angular/material/core";
+import { DashboardModule } from "./dashboard/dashboard.module";
+import { SignInModule } from "./sign-in/sign-in.module";
+import { AngularFireDatabaseModule } from "@angular/fire/compat/database";
+import { ToastrModule } from "ngx-toastr";
 
 initializeApp(environment.firebase);
 
@@ -35,10 +40,22 @@ initializeApp(environment.firebase);
     AngularFireMessagingModule,
     AngularFireStorageModule,
     AngularFireAuthModule,
+    AngularFireDatabaseModule,
+    ToastrModule.forRoot({
+      timeOut: 5000,
+      closeButton: true,
+      preventDuplicates: true,
+      positionClass: 'toast-bottom-center'
+    }),
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    DashboardModule,
+    SignInModule
   ],
   providers: [
     { provide: USE_AUTHENTICATION_EMULATOR, useValue: environment.useEmulators ? ['http://localhost:9099', 9099] : undefined },

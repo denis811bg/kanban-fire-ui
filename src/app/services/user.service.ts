@@ -10,11 +10,11 @@ export class UserService {
   }
 
   public createUser(userDto: UserDto): Observable<UserDto> {
-    return this.fireFunctionsClient.fetch('createUser', userDto);
+    return this.fireFunctionsClient.fetch('createUser', {userDto: userDto});
   }
 
-  public getUser(userDto: UserDto): Observable<UserDto> {
-    return this.fireFunctionsClient.fetch('getUser', userDto);
+  public getUser(userUid: string): Observable<UserDto> {
+    return this.fireFunctionsClient.fetch('getUser', {userUid: userUid});
   }
 
 }

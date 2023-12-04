@@ -1,15 +1,21 @@
-mat-toolbar {
-  margin-bottom: 20px;
-}
-
-mat-toolbar > span {
-  margin-left: 10px;
-}
-
 .content-wrapper {
   max-width: 1400px;
   margin: auto;
   padding: 24px;
+}
+
+.container-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.container-filter {
+  display: flex;
+  align-items: baseline;
+}
+
+.item-filter {
+  padding-right: 16px;
 }
 
 .container-wrapper {
@@ -29,21 +35,9 @@ mat-toolbar > span {
   border-radius: 4px;
 }
 
-app-new-task {
-  margin-bottom: 30px;
-}
-
 .empty-label {
   font-size: 2em;
   padding: 16px;
   text-align: center;
   opacity: 0.2;
-}
-
-.cdk-drag-animating {
-  transition: transform 250ms;
-}
-
-.cdk-drag-placeholder {
-  opacity: 0;
 }

@@ -3,7 +3,7 @@ import firebase from "firebase/compat";
 import Timestamp = firebase.firestore.Timestamp;
 
 export interface TaskDto {
-  id?: string;
+  id: string;
   title: string;
   description: string;
   status: Status;

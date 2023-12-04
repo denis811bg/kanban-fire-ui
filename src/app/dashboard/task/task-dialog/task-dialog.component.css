@@ -1,3 +1,36 @@
 mat-form-field {
   display: block;
 }
+
+.divider {
+  height: 1px;
+  background-color: #ccc;
+  margin: 16px 0;
+}
+
+.comment-container {
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  padding: 8px;
+}
+
+.comment-item {
+  margin-bottom: 16px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 8px;
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.comment-text {
+  font-size: 14px;
+}
+
+.comment-date {
+  font-size: 10px;
+}

@@ -8,6 +8,7 @@ import { LocalStorageUtils } from "./utils/local-storage.utils";
 import { SignInService } from "./services/sign-in.service";
 import { Router } from "@angular/router";
 import { AngularFireAuth } from "@angular/fire/compat/auth";
+import { NotificationService } from "./services/notification.service";
 
 @Component({
   selector: 'app-root',
@@ -28,7 +29,8 @@ export class AppComponent {
               private readonly firebaseStorageService: FirebaseStorageService,
               private readonly signInService: SignInService,
               private readonly router: Router,
-              private readonly angularFireAuth: AngularFireAuth) {
+              private readonly angularFireAuth: AngularFireAuth,
+              private readonly notificationService: NotificationService) {
     this.angularFireAuth.onAuthStateChanged((user) => {
       if (user) {
         this.firebaseStorageService.getDownloadUrl(BASE_FCM_PATH + AppComponent.FCM_ICON).subscribe((url) => {
@@ -41,15 +43,19 @@ export class AppComponent {
 
     this.signInService.isSignedIn.subscribe((isSignedIn: boolean) => {
       this.isSignedIn = isSignedIn;
-    })
+    });
   }
 
   public signOut(): void {
-    this.signInService.signOut().then(async () => {
-      this.signInService.isSignedIn.next(false);
-      LocalStorageUtils.removeUser();
-      await this.router.navigate(['sign-in']);
-    });
+    this.signInService.signOut()
+      .then(async () => {
+        this.signInService.isSignedIn.next(false);
+        LocalStorageUtils.removeUser();
+        await this.router.navigate(['sign-in']);
+      })
+      .catch((error: any) => {
+        this.notificationService.error('Sign Out error:', error.message);
+      });
   }
 
   private checkPermissionTime(): void {

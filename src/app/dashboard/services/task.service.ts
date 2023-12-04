@@ -13,16 +13,16 @@ export class TaskService {
     return this.fireFunctionsClient.fetch('getTaskList');
   }
 
-  public createNewTask(task: TaskDto): Observable<TaskDto> {
-    return this.fireFunctionsClient.fetch('createTask', task);
+  public createNewTask(taskDto: TaskDto): Observable<TaskDto> {
+    return this.fireFunctionsClient.fetch('createTask', {taskDto: taskDto});
   }
 
-  public updateTask(task: TaskDto): Observable<TaskDto> {
-    return this.fireFunctionsClient.fetch('updateTask', task);
+  public updateTask(taskDto: TaskDto): Observable<TaskDto> {
+    return this.fireFunctionsClient.fetch('updateTask', {taskDto: taskDto});
   }
 
-  public deleteTask(task: TaskDto): Observable<void> {
-    return this.fireFunctionsClient.fetch('deleteTask', task);
+  public deleteTask(taskId: string): Observable<void> {
+    return this.fireFunctionsClient.fetch('deleteTask', {taskId: taskId});
   }
 
   public initTaskList(): Observable<TaskDto[]> {

@@ -8,6 +8,8 @@ import { Status } from "../enum/status";
 import { TaskDialogComponent, TaskDialogResult } from "./task/task-dialog/task-dialog.component";
 import { TaskService } from "./services/task.service";
 import { Observable } from "rxjs";
+import { FormControl, FormGroup } from "@angular/forms";
+import { FilterService } from "./services/filter.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -19,7 +21,8 @@ export class DashboardComponent implements OnInit {
   constructor(private readonly dialog: MatDialog,
               private readonly fireFunctionsClient: FireFunctionsClient,
               private readonly activatedRoute: ActivatedRoute,
-              private readonly taskService: TaskService) {
+              private readonly taskService: TaskService,
+              private readonly filterService: FilterService) {
   }
 
   public taskList: TaskDto[] = [];
@@ -31,21 +34,27 @@ export class DashboardComponent implements OnInit {
     return Status;
   }
 
+  public statusList: string[] = Object.values(Status);
+  public selectedStatus: string = '';
+
+  public range = new FormGroup({
+    start: new FormControl<Date | null>(null),
+    end: new FormControl<Date | null>(null),
+  });
+
   private static TASK_DIALOG_WIDTH: string = '400px';
+  private static TASK_DIALOG_HEIGHT: string = '800px';
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.activatedRoute.data.subscribe((data) => {
-      this.taskList = data['tasks'];
-
-      this.todo = this.taskList.filter(task => task.status === Status.TODO);
-      this.inProgress = this.taskList.filter(task => task.status === Status.IN_PROGRESS);
-      this.done = this.taskList.filter(task => task.status === Status.DONE);
+      this.initTaskList(data['tasks']);
     });
   }
 
   public openTaskDialog(task: TaskDto | {}, enableDelete: boolean): Observable<TaskDialogResult> {
     const dialogRef = this.dialog.open(TaskDialogComponent, {
       width: DashboardComponent.TASK_DIALOG_WIDTH,
+      maxHeight: DashboardComponent.TASK_DIALOG_HEIGHT,
       data: {
         task: task,
         enableDelete: enableDelete
@@ -103,8 +112,24 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  public filter(): void {
+    this.filterService.filterTaskListWithStatusAndCreatedDateRange(this.selectedStatus, this.range.value).subscribe((filteredTaskList: TaskDto[]) => {
+      this.taskList = filteredTaskList;
+    });
+  }
+
+  public clearFilter(): void {
+    this.selectedStatus = '';
+    this.range.value.start = null;
+    this.range.value.end = null;
+
+    this.taskService.getTaskList().subscribe((taskList: TaskDto[]) => {
+      this.initTaskList(taskList);
+    });
+  }
+
   private deleteTask(task: TaskDto): void {
-    this.taskService.deleteTask(task).subscribe(() => {
+    this.taskService.deleteTask(task.id).subscribe(() => {
       this.updateTaskList(task, true);
     });
   }
@@ -140,6 +165,15 @@ export class DashboardComponent implements OnInit {
         return this.done;
       default:
         return undefined;
+    }
+  }
+
+  private initTaskList(taskList: TaskDto[]): void {
+    if (taskList && taskList.length != 0) {
+      this.taskList = taskList;
+      this.todo = taskList.filter(task => task.status === Status.TODO);
+      this.inProgress = taskList.filter(task => task.status === Status.IN_PROGRESS);
+      this.done = taskList.filter(task => task.status === Status.DONE);
     }
   }
 

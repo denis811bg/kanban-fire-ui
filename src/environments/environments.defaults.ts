@@ -4,6 +4,7 @@ export const environmentDefault = {
   firebase: {
     apiKey: "AIzaSyC3-KmYMsonAbL9vwWlTo-atg6IwHTsK8o",
     authDomain: "kanban-fire-833cc.firebaseapp.com",
+    databaseURL: "https://kanban-fire-833cc-default-rtdb.firebaseio.com",
     projectId: "kanban-fire-833cc",
     storageBucket: "kanban-fire-833cc.appspot.com",
     messagingSenderId: "646530581923",

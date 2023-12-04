@@ -14,4 +14,8 @@ export class UserUtils {
     } as UserDto;
   }
 
+  public static isEmptyUser(userDto: UserDto): boolean {
+    return Object.keys(userDto).length === 0;
+  }
+
 }

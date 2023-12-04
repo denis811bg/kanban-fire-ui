@@ -1,4 +1,6 @@
-<mat-card class="item" *ngIf="task" (dblclick)="edit.emit(task)">
+<mat-card class="item"
+          *ngIf="task" (dblclick)="edit.emit(task)"
+          [style.background-color]="task.status === status.TODO ? '#bfe1f6' : task.status === status.IN_PROGRESS ? '#ffe5a0' : '#d4edbc'">
   <h2 class="item title">{{ task.title }}</h2>
   <p class="item description">
     {{ task.description }}

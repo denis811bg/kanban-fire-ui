@@ -3,9 +3,9 @@ import { SignInService } from "../../services/sign-in.service";
 import firebase from "firebase/compat";
 import { Router } from "@angular/router";
 import { UserService } from "../../services/user.service";
-import { LocalStorageUtils } from "../../utils/local-storage.utils";
 import { UserUtils } from "../../utils/user.utils";
 import { UserDto } from "../../dto/user.dto";
+import { NotificationService } from "../../services/notification.service";
 import UserCredential = firebase.auth.UserCredential;
 
 @Component({
@@ -20,7 +20,8 @@ export class SignUpComponent {
 
   constructor(private readonly signInService: SignInService,
               private readonly router: Router,
-              private readonly userService: UserService) {
+              private readonly userService: UserService,
+              private readonly notificationService: NotificationService) {
   }
 
   public signUp(): void {
@@ -28,11 +29,14 @@ export class SignUpComponent {
       .then(async (userCredential: UserCredential) => {
         if (userCredential.user) {
           this.userService.createUser(UserUtils.buildUserDto(userCredential.user)).subscribe(async (userDto: UserDto) => {
-            LocalStorageUtils.setUser(userDto);
-            this.signInService.isSignedIn.next(true);
-            await this.router.navigate(['dashboard']);
+            if (userDto && userCredential.user) {
+              await this.signInService.handleSignInSuccess(userCredential.user);
+            }
           });
         }
+      })
+      .catch((error: any) => {
+        this.notificationService.error('Sign Up error:', error.message);
       });
   }
 

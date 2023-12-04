@@ -12,6 +12,26 @@
     <mat-label>Description</mat-label>
     <textarea matInput [(ngModel)]="data.task.description"></textarea>
   </mat-form-field>
+
+  <div *ngIf="data.enableDelete">
+    <div class="divider"></div>
+
+    <mat-form-field>
+      <mat-label>Leave comment</mat-label>
+      <textarea matInput [(ngModel)]="comment"></textarea>
+    </mat-form-field>
+    <button mat-button (click)="addComment()">Add Comment</button>
+
+    <div class="comment-container" *ngIf="commentList">
+      <div *ngFor="let comment of commentList" class="comment-item">
+        <div class="comment-header">
+          <strong>{{ comment.author }}</strong>
+        </div>
+        <div class="comment-text">{{ comment.text }}</div>
+        <span class="comment-date">{{ comment.timestamp.toString() }}</span>
+      </div>
+    </div>
+  </div>
 </mat-dialog-content>
 
 <mat-dialog-actions>
